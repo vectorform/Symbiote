@@ -1,0 +1,11 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'Symbiote_Example' do #, :exclusive => true do
+  pod 'Symbiote', :path => '../'
+end
+
+target 'Symbiote_Tests' do #, :exclusive => true do
+  pod 'Symbiote', :path => '../'
+
+end
