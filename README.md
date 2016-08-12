@@ -12,7 +12,7 @@ Unsupported analytics platforms may be integrated by implementing a simple event
 Events may be filtered and processed (add/edit/remove/analyze data) by adding custom event processors which are filtered by EventFilters to the event bus.
 
 ### Currently Supported Platforms
-  * Answers Analytics
+  * Amazon Mobile Analytics
   * Flurry
   * Simple Logging *(Debug only!)*
 
