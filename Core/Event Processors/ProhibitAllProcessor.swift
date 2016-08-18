@@ -12,7 +12,7 @@ public class ProhibitAllProcessor: EventProcessor {
         self.allowAll = allowAll
     }
     public func processEvent(inout event: Event) -> Bool {
-        return allowAll;
+        return allowAll
     }
     public func defaultFilter() -> EventFilter {
         return BooleanFilter()

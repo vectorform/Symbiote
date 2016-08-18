@@ -23,23 +23,38 @@ public class Event {
     public typealias DataDescriptor = Descriptor
 
     public struct Methods {
+        // Passed by generic, non-defined method
         public static let Generic = Method("Generic")
+        // Passed by swizzle hook
         public static let SwizzleHook = Method("Swizzle")
+        // Passed by subclass/base class
         public static let SubclassHook = Method("Subclass")
+        // Passed in the AppDelegate
         public static let AppDelegateCall = Method("AppDelegate")
+        // Passed directly
         public static let DirectCall = Method("Direct")
         
     }
     public struct Senders {
+        // Generic, not defined sender
         public static let Generic = Sender("Generic")
+         // UIControl
+        public static let Control = Sender("Control")
+        // UIButton
         public static let Button = Sender("Button")
+        // UIView(Controller)
         public static let View = Sender("View")
+        // AppDelegate
         public static let App = Sender("App")
         
     }
     
     public struct Actions {
         public static let Generic = Action("Generic")
+        
+        // UIControl SendAction
+        public static let TargetSelector = Action("TargetSelector")
+        
         
         // Button
         public static let Press = Action("Press")
@@ -73,10 +88,10 @@ public class Event {
     public var data: Dictionary<DataDescriptor, String> = Dictionary()
     
     public init(method: Method = Event.Methods.DirectCall, sender: Sender = Event.Senders.Generic, action: Action = Event.Actions.Generic, data: Dictionary<DataDescriptor, String> = [:], senderObject: AnyObject?) {
-        self.method = method;
-        self.sender = sender;
-        self.action = action;
-        self.data = data;
+        self.method = method
+        self.sender = sender
+        self.action = action
+        self.data = data
         self.senderObject = senderObject
     }
     public convenience init(method: Method = Event.Methods.DirectCall, sender: Sender = Event.Senders.Generic, action: Action = Event.Actions.Generic, data: Dictionary<DataDescriptor, String> = [:]) {

@@ -66,7 +66,7 @@ final public class Symbiote {
                 }
             }
             struct Static {
-                static var token: dispatch_once_t = 0;
+                static var token: dispatch_once_t = 0
             }
             dispatch_once(&Static.token) {
                 for c in Symbiote.SwizzleClasses {
@@ -129,7 +129,7 @@ final public class Symbiote {
             for a in self.analyticsProviders {
                 a.logEvent(event)
             }
-        };
+        }
         
     }
     

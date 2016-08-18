@@ -9,22 +9,9 @@ import UIKit
 
 public class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
 
-    public var analyticsDescription: String?
+    public var analyticsDescription: String = String(self.dynamicType.self)
     public weak var parentViewController: UIViewController?
     public var customEvent: Event?
-    
-    
-    public func getViewPath() -> String {
-        guard let parentObject = parentViewController else {
-            return "/" + (analyticsDescription ?? description)
-        }
-        
-        if let parent = parentObject as? AnalyticsCompatible {
-            return parent.getViewPath() + "/" + (analyticsDescription ?? description)
-        } else {
-            return parentObject.description + "/" + (analyticsDescription ?? description)
-        }
-    }
     
     public func buttonPressed(sender: AnyObject) {
         if let customEvent = customEvent {
@@ -37,7 +24,7 @@ public class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
             event.sender = Event.Senders.Button;
             event.action = Event.Actions.Press;
         }
-        event.data[Event.DataDescriptors.ViewName] = analyticsDescription ?? description
+        event.data[Event.DataDescriptors.ViewName] = analyticsDescription
         event.data[Event.DataDescriptors.ControlEvent] = "TouchUpInside"
         event.data[Event.DataDescriptors.Path] = getViewPath()
         event.senderObject = self

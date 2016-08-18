@@ -16,17 +16,23 @@ extension UIApplication: SwizzleCompatible {
     internal func SYMBIOTE_sendAction_SW(action: Selector, to target: AnyObject, from: AnyObject, forEvent: UIEvent) {
         // we don't want to use swizzled method on analytics compatible class. logging is handled already
         if !(from is AnalyticsCompatible) {
-            let event = Event(method: Event.Methods.SwizzleHook, senderObject: from)
-            
-            if from is UIButton {
-                event.sender = Event.Senders.Button;
-                event.action = Event.Actions.Press;
+            if from is UIControl {
+                Symbiote.SharedInstance.logEvent(
+                    Event(
+                        method: Event.Methods.SwizzleHook,
+                        sender: from is UIButton ? Event.Senders.Button : Event.Senders.Control,
+                        action: Event.Actions.TargetSelector,
+                        data: [
+                            Event.DataDescriptors.SelectorName: NSStringFromSelector(action),
+                            Event.DataDescriptors.ViewName: String(from.dynamicType.self)
+                        ],
+                        senderObject: from
+                    )
+                )
             }
-            event.data[Event.DataDescriptors.SelectorName] = NSStringFromSelector(action)
-            Symbiote.SharedInstance.logEvent(event)
         }
         
-        SYMBIOTE_sendAction_SW(action, to: target, from: from, forEvent: forEvent);
+        SYMBIOTE_sendAction_SW(action, to: target, from: from, forEvent: forEvent)
 
     }
 

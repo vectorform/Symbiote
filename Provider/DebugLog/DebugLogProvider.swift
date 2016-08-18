@@ -10,7 +10,7 @@ public class DebugLogProvider: AnalyticsProvider {
     public init() {
     }
     public func logEvent(event: Event) {
-        NSLog("[SYMBIOTE]: " + event.method + ":" + event.sender + "/" + event.action + " [" + event.data.debugDescription + "]");
+        NSLog("[SYMBIOTE]: " + event.method + ":" + event.sender + "/" + event.action + " [" + event.data.debugDescription + "]")
         
     }
 }

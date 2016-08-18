@@ -8,5 +8,5 @@
 import UIKit
 
 internal protocol SwizzleCompatible {
-    static var SwizzleMethods: [Selector: Selector] {get}
+    static var SwizzleMethods: [Selector: Selector] { get }
 }

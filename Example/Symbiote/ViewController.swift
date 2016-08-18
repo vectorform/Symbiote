@@ -10,11 +10,11 @@
 import UIKit
 import Symbiote
 
-class ViewController: AnalyticsEnabledViewController {
+class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        analyticsDescription = "FirstViewController"
+        //analyticsDescription = "FirstViewController"
         
         view.backgroundColor = UIColor.redColor()
         

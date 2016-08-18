@@ -7,7 +7,7 @@
 //
 
 public protocol EventProcessor: class {
-    //returns wether the event should be published or not; can modify event
+    //returns wether the event should be published or not can modify event
     func processEvent(inout event: Event) -> Bool
     func defaultFilter() -> EventFilter
     

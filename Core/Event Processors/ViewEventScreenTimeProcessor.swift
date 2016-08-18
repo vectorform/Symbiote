@@ -33,7 +33,7 @@ public class ViewEventScreenTimeProcessor: EventProcessor {
         default:
             break
         }
-        return true;
+        return true
     }
     public func defaultFilter() -> EventFilter {
         return SimpleGenericFilter(filterSenders: [Event.Senders.View])

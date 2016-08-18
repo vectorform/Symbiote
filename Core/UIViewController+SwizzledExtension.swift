@@ -18,7 +18,15 @@ extension UIViewController: SwizzleCompatible {
     internal func SYMBIOTE_viewDidAppear_SW(animated: Bool) {
         // we don't want to use swizzled method on analytics compatable class. logging is handled already
         if !(self is AnalyticsCompatible) {
-            Symbiote.SharedInstance.logEvent(Event(method: Event.Methods.SwizzleHook, sender: Event.Senders.View, action: Event.Actions.Appear, data: [Event.DataDescriptors.ViewName: description], senderObject: self))
+            Symbiote.SharedInstance.logEvent(
+                Event(
+                    method: Event.Methods.SwizzleHook,
+                    sender: Event.Senders.View,
+                    action: Event.Actions.Appear,
+                    data: [
+                        Event.DataDescriptors.ViewName: String(self.dynamicType.self)
+                    ],
+                    senderObject: self))
         }
         
         SYMBIOTE_viewDidAppear_SW(animated)
@@ -27,7 +35,7 @@ extension UIViewController: SwizzleCompatible {
     internal func SYMBIOTE_viewWillDisappear_SW(animated: Bool) {
         // we don't want to use swizzled method on analytics compatable class. logging is handled already
         if !(self is AnalyticsCompatible) {
-            Symbiote.SharedInstance.logEvent(Event(method: Event.Methods.SwizzleHook, sender: Event.Senders.View, action: Event.Actions.Disappear, data: [Event.DataDescriptors.ViewName: description], senderObject: self))
+            Symbiote.SharedInstance.logEvent(Event(method: Event.Methods.SwizzleHook, sender: Event.Senders.View, action: Event.Actions.Disappear, data: [Event.DataDescriptors.ViewName: String(self.dynamicType.self)], senderObject: self))
         }
         
         SYMBIOTE_viewWillDisappear_SW(animated)

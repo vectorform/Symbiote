@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Enable simple log provider to print all output.
         // TODO: Disable for production build!
-        Symbiote.SharedInstance.registerAnalyticsProvider(DebugLogProvider());
+        Symbiote.SharedInstance.registerAnalyticsProvider(DebugLogProvider())
         
         // Sample of how to prohibit all events with a .App sender
         Symbiote.SharedInstance.registerEventProcessor(ProhibitAllProcessor(), filter: SimpleGenericFilter(filterSenders: [Event.Senders.App]))
