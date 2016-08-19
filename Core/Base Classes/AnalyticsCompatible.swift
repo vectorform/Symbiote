@@ -9,22 +9,27 @@
 import UIKit
 
 public protocol AnalyticsCompatible: class {
-    var analyticsDescription: String { get }
+    var analyticsDescription: String? { get set }
     weak var parentViewController: UIViewController? { get }
 
     func getViewPath() -> String
 }
 
 extension AnalyticsCompatible {
+    
+    public func defaultAnalyticsDescription() -> String {
+        return String(self.dynamicType.self)
+    }
+    
     public func getViewPath() -> String {
         guard let parentObject = parentViewController else {
-            return "/" + (analyticsDescription)
+            return "/" + (analyticsDescription ?? defaultAnalyticsDescription())
         }
         
         if let parent = parentObject as? AnalyticsCompatible {
-            return parent.getViewPath() + "/" + (analyticsDescription)
+            return parent.getViewPath() + "/" + (analyticsDescription ?? defaultAnalyticsDescription())
         } else {
-            return String(parentObject.dynamicType.self) + "/" + (analyticsDescription)
+            return String(parentObject.dynamicType.self) + "/" + (analyticsDescription ?? defaultAnalyticsDescription())
         }
     }
 }

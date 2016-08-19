@@ -9,7 +9,8 @@ import UIKit
 
 public class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
 
-    public var analyticsDescription: String = String(self.dynamicType.self)
+    public var analyticsDescription: String?
+    
     public weak var parentViewController: UIViewController?
     public var customEvent: Event?
     
@@ -24,7 +25,7 @@ public class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
             event.sender = Event.Senders.Button;
             event.action = Event.Actions.Press;
         }
-        event.data[Event.DataDescriptors.ViewName] = analyticsDescription
+        event.data[Event.DataDescriptors.ViewName] = analyticsDescription ?? defaultAnalyticsDescription()
         event.data[Event.DataDescriptors.ControlEvent] = "TouchUpInside"
         event.data[Event.DataDescriptors.Path] = getViewPath()
         event.senderObject = self

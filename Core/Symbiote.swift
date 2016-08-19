@@ -44,7 +44,7 @@ final public class Symbiote {
         registerEventProcessor(ViewEventScreenTimeProcessor())
     }
     
-    /// Auto enables swizzling. To disable swizzling completely set EnableSwizzling to false
+    /// Auto enables swizzling. To disable swizzling completely set swizzlingEnabled to false
     private static func swizzleSwag() {
         if swizzlingEnabled {
             func Swizzle(c: AnyClass!, methods: [Selector: Selector]) {
