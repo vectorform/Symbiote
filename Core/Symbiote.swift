@@ -20,16 +20,16 @@ final public class Symbiote {
     public static var swizzlingEnabled = true
     
     /// Classes that should be Swizzled; Musst comply to SwizzleCompatible; See UIApplication+SwizzledExtension.swift for sample
-    private static let SwizzleClasses: [AnyClass] = [UIApplication.self, UIViewController.self]
+    fileprivate static let SwizzleClasses: [AnyClass] = [UIApplication.self, UIViewController.self]
     
     /// An array containing all enabled Analytics Providers
-    private var analyticsProviders: Array<AnalyticsProvider> = []
+    fileprivate var analyticsProviders: Array<AnalyticsProvider> = []
     
     /// An array containing all event processors with the corresponding filter. Filters define if the processor may be applied to a given event
-    private var filteredEventProcessors: Array<FilteredEventProcessor> = []
+    fileprivate var filteredEventProcessors: Array<FilteredEventProcessor> = []
     
     /// The serial dispatch queue that is being used to log the events in order
-    private let dispatchQueue = dispatch_queue_create("com.symbiote.eventdispatch", DISPATCH_QUEUE_SERIAL)
+    fileprivate let dispatchQueue = DispatchQueue(label: "com.symbiote.eventdispatch", attributes: [])
 
     
     /**
@@ -37,17 +37,17 @@ final public class Symbiote {
         
         - Returns: A beautiful, brand-new Symbiote object.
     */
-    private init() {
+    fileprivate init() {
         Symbiote.swizzleSwag()
     
         // Enable all default Processors
-        registerEventProcessor(ViewEventScreenTimeProcessor())
+        register(eventProcessor: ViewEventScreenTimeProcessor())
     }
     
     /// Auto enables swizzling. To disable swizzling completely set swizzlingEnabled to false
-    private static func swizzleSwag() {
+    fileprivate static func swizzleSwag() {
         if swizzlingEnabled {
-            func Swizzle(c: AnyClass!, methods: [Selector: Selector]) {
+            func Swizzle(_ c: AnyClass!, methods: [Selector: Selector]) {
                 for (from, to) in methods {
                     let originalSelector = from
                     let swizzledSelector = to
@@ -65,18 +65,15 @@ final public class Symbiote {
                     
                 }
             }
-            struct Static {
-                static var token: dispatch_once_t = 0
-            }
-            dispatch_once(&Static.token) {
+            let swizzleOnce = {
                 for c in Symbiote.SwizzleClasses {
                     if c is SwizzleCompatible.Type {
                         Swizzle(c as AnyClass!, methods: (c as! SwizzleCompatible.Type).SwizzleMethods)
                     }
-                    
-                }
-            }
 
+                }
+            }()
+            _ = swizzleOnce
         }
     }
    
@@ -85,7 +82,7 @@ final public class Symbiote {
      Register a new Analytics Provider.
      - Parameter provider: The analytics provider that should be registered
      */
-    public func registerAnalyticsProvider(provider: AnalyticsProvider) {
+    public func register(analyticsProvider provider: AnalyticsProvider) {
         analyticsProviders.append(provider)
     }
     // TODO: implement unregister
@@ -94,31 +91,31 @@ final public class Symbiote {
         - Parameter eventProcessor: The event processor that should be executed on every filtered event.
         - Parameter filter: The filter that checks each event if it may/should be processed by the event processor
     */
-    public func registerEventProcessor(eventProcessor: EventProcessor, filter: EventFilter?) {
+    public func register(eventProcessor: EventProcessor, filter: EventFilter?) {
         filteredEventProcessors.append((filter, eventProcessor))
     }
     /**
         Register a a new event processor with it's default filter.
         - Parameter eventProcessor: The event processor that should be executed on every filtered event.
      */
-    public func registerEventProcessor(eventProcessor: EventProcessor) {
-        registerEventProcessor(eventProcessor, filter: eventProcessor.defaultFilter())
+    public func register(eventProcessor: EventProcessor) {
+        register(eventProcessor: eventProcessor, filter: eventProcessor.defaultFilter())
     }
     /**
         This method makes sure each event is processed and written out to all enabled analytics providers, while dispatching this to a background priority queue.
         First the event will be matched against all processors and their corresponding filters. If a filter returns `true` for an event, it will be processed by the event processor. If the processor returns `false` then the event will not be sent to the analytics providers or processed any further.
         - Parameter event: The event that should be processed and sent to the analytics providers.
      */
-    public func logEvent(event: Event) {
-        dispatch_async(dispatchQueue) { () -> Void in
+    public func log(event: Event) {
+        dispatchQueue.async { () -> Void in
             var event = event
             for filteredEventProcessor in self.filteredEventProcessors {
                 var processEvent = true
                 if let filter = filteredEventProcessor.filter {
-                    processEvent = filter.filterEvent(event)
+                    processEvent = filter.filter(event: event)
                 }
                 if processEvent {
-                    if !filteredEventProcessor.processor.processEvent(&event) {
+                    if !filteredEventProcessor.processor.process(event: &event) {
                         // event should not be published
                         // this will exit as soon as one of the event processors disables logging; no further event processors will be executed
                         return
@@ -127,7 +124,7 @@ final public class Symbiote {
             }
             
             for a in self.analyticsProviders {
-                a.logEvent(event)
+                a.log(event: event)
             }
         }
         

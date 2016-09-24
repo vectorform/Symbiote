@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Symbiote"
-  s.version          = "0.1.2"
+  s.version          = "0.2.0"
   s.summary          = "Symbiote is an analytics framework that supports multiple platforms, auto enables analytics in an app (through swizzling) and is easily extensible."
 
   s.description      = <<-DESC

@@ -24,6 +24,10 @@ You can install this library using [Cocoapods](https://cocoapods.org/pods/TODO).
 
 In your podfile, you want to add `pod 'Symbiote', '0.1.0'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS: 8.0 and above.
 
+#### Swift 3
+
+For Swift 3 support, you must use version 0.2.0 or higher.
+
 
 ### Reference Documentation
 

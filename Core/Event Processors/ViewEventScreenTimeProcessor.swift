@@ -6,13 +6,13 @@
 //  ViewEventScreenTimeProcessor.swift
 //
 
-public class ViewEventScreenTimeProcessor: EventProcessor {
-    public static let DataTag = Event.DataDescriptor("ScreenTime")
+open class ViewEventScreenTimeProcessor: EventProcessor {
+    open static let DataTag = Event.DataDescriptor("ScreenTime")!
     
-    private var timingTable: Dictionary<String, NSDate> = [:]
+    fileprivate var timingTable: Dictionary<String, Date> = [:]
     public init() {
     }
-    public func processEvent(inout event: Event) -> Bool {
+    open func process(event: inout Event) -> Bool {
         assert(event.sender == Event.Senders.View, "ViewEventProcessor only supports views")
         
         switch event.action {
@@ -25,8 +25,8 @@ public class ViewEventScreenTimeProcessor: EventProcessor {
         case Event.Actions.Disappear:
             if let viewName = event.data[Event.DataDescriptors.ViewName] {
                 if let showDate = timingTable[viewName] {
-                    event.data[ViewEventScreenTimeProcessor.DataTag] = String(event.date.timeIntervalSinceDate(showDate))
-                    timingTable.removeValueForKey(viewName)
+                    event.data[ViewEventScreenTimeProcessor.DataTag] = String(event.date.timeIntervalSince(showDate))
+                    timingTable.removeValue(forKey: viewName)
                 }
             }
             break
@@ -35,7 +35,7 @@ public class ViewEventScreenTimeProcessor: EventProcessor {
         }
         return true
     }
-    public func defaultFilter() -> EventFilter {
+    open func defaultFilter() -> EventFilter {
         return SimpleGenericFilter(filterSenders: [Event.Senders.View])
     }
 

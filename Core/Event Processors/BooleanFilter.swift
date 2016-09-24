@@ -7,16 +7,16 @@
 //
 
 
-public class BooleanFilter: EventFilter {
+open class BooleanFilter: EventFilter {
     
-    public var allowAll: Bool
+    open var allowAll: Bool
     
     /// default behaviour is to allow all
     public init(allowAll: Bool = true) {
         self.allowAll = allowAll
     }
     
-    public func filterEvent(event: Event) -> Bool {
+    open func filter(event: Event) -> Bool {
         return allowAll
     }
 }
