@@ -6,15 +6,15 @@
 //  ProhibitAllProcessor.swift
 //
 
-public class ProhibitAllProcessor: EventProcessor {
-    public var allowAll: Bool
+open class ProhibitAllProcessor: EventProcessor {
+    open var allowAll: Bool
     public init(allowAll: Bool = false){
         self.allowAll = allowAll
     }
-    public func processEvent(inout event: Event) -> Bool {
+    open func process(event: inout Event) -> Bool {
         return allowAll
     }
-    public func defaultFilter() -> EventFilter {
+    open func defaultFilter() -> EventFilter {
         return BooleanFilter()
     }
 

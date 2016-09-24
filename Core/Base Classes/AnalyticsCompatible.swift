@@ -18,7 +18,7 @@ public protocol AnalyticsCompatible: class {
 extension AnalyticsCompatible {
     
     public func defaultAnalyticsDescription() -> String {
-        return String(self.dynamicType.self)
+        return String(describing: type(of: self).self)
     }
     
     public func getViewPath() -> String {
@@ -29,7 +29,7 @@ extension AnalyticsCompatible {
         if let parent = parentObject as? AnalyticsCompatible {
             return parent.getViewPath() + "/" + (analyticsDescription ?? defaultAnalyticsDescription())
         } else {
-            return String(parentObject.dynamicType.self) + "/" + (analyticsDescription ?? defaultAnalyticsDescription())
+            return String(describing: type(of: parentObject).self) + "/" + (analyticsDescription ?? defaultAnalyticsDescription())
         }
     }
 }

@@ -8,13 +8,13 @@
 
 public protocol EventProcessor: class {
     //returns wether the event should be published or not can modify event
-    func processEvent(inout event: Event) -> Bool
+    func process(event: inout Event) -> Bool
     func defaultFilter() -> EventFilter
     
 }
 public protocol EventFilter: class {
     //returns wether the event passed the filter
-    func filterEvent(event: Event) -> Bool
+    func filter(event: Event) -> Bool
 }
 
 /// This allows Symbiote to use standard contains methods on collections by comparing the references of two objects

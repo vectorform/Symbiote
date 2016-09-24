@@ -6,7 +6,7 @@
 //  SimpleGenericFilter.swift
 //
 
-public class SimpleGenericFilter: EventFilter {
+open class SimpleGenericFilter: EventFilter {
     var filterMethods: Array<Event.Method> = []
     var filterSenders: Array<Event.Sender> = []
     var filterActions: Array<Event.Action> = []
@@ -23,7 +23,7 @@ public class SimpleGenericFilter: EventFilter {
         self.filterActions = filterActions
     }
     
-    public func filterEvent(event: Event) -> Bool {
+    open func filter(event: Event) -> Bool {
         let methodListed = (filterMethods.contains(event.method) || filterMethods.count == 0)
         let senderListed = (filterSenders.contains(event.sender) || filterSenders.count == 0)
         let actionListed = (filterActions.contains(event.action) || filterActions.count == 0)

@@ -11,17 +11,17 @@ import Symbiote
 
 // Option one:
 struct AnalyticsExtensions {
-    static let SampleMethod = Event.Method("SampleMethod")
+    static let SampleMethod = Event.Method("SampleMethod")!
 
-    static let SampleSender = Event.Sender("SampleSender")
+    static let SampleSender = Event.Sender("SampleSender")!
     
-    static let SampleAction = Event.Action("SampleAction")
+    static let SampleAction = Event.Action("SampleAction")!
 
-    static let SampleDataDescriptor = Event.DataDescriptor("SampleDataDescriptor")
+    static let SampleDataDescriptor = Event.DataDescriptor("SampleDataDescriptor")!
     
     
     class AlertViewFilter: EventFilter {
-        func filterEvent(event: Event) -> Bool {
+        func filter(event: Event) -> Bool {
             if let senderObject = event.senderObject {
                 if senderObject is UIAlertController {
                     return true
@@ -30,7 +30,7 @@ struct AnalyticsExtensions {
             // disable UIInputWindowController
             
             if let viewName = event.data[Event.DataDescriptors.ViewName] {
-                if viewName.containsString("UIInputWindowController") || viewName.containsString("UIApplicationRotationFollowingController") {
+                if viewName.contains("UIInputWindowController") || viewName.contains("UIApplicationRotationFollowingController") {
                     return true
                 }
             }
@@ -40,9 +40,9 @@ struct AnalyticsExtensions {
 }
 
 // Option two:
-let AnalyticsSampleMethod = Event.Method("SampleMethod")
-let AnalyticsSampleSender = Event.Sender("SampleSender")
-let AnalyticsSampleAction = Event.Action("SampleAction")
-let AnalyticsSampleDataDescriptor = Event.DataDescriptor("SampleDataDescriptor")
+let AnalyticsSampleMethod = Event.Method("SampleMethod")!
+let AnalyticsSampleSender = Event.Sender("SampleSender")!
+let AnalyticsSampleAction = Event.Action("SampleAction")!
+let AnalyticsSampleDataDescriptor = Event.DataDescriptor("SampleDataDescriptor")!
 
 
