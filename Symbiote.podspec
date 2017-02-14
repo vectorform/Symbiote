@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Symbiote"
-  s.version          = "0.2.0"
+  s.version          = "0.3.0"
   s.summary          = "Symbiote is an analytics framework that supports multiple platforms, auto enables analytics in an app (through swizzling) and is easily extensible."
 
   s.description      = <<-DESC
@@ -17,11 +17,9 @@ Events may be filtered and processed (add/edit/remove/analyze data) by adding cu
   s.social_media_url = 'https://twitter.com/vectorform'
 
   s.source_files = 'Core/'
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '8.1'
   s.requires_arc = true
-  # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
   s.default_subspec = 'Core', 'Provider/DebugLog'
 
   s.subspec 'Core' do |core|
