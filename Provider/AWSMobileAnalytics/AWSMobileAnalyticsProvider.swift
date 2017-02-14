@@ -15,12 +15,14 @@ public class AWSMobileAnalyticsProvider: AnalyticsProvider {
         awsAnalytics = AWSMobileAnalytics(forAppId: appId, identityPoolId: identityPoolId)
     }
     
-    public func logEvent(event : Event) {
-        let awsEvent = awsAnalytics.eventClient.createEventWithEventType(event.method + ":" + event.sender + "/" + event.action)
-        for (key, value) in event.data {
-            awsEvent.addAttribute(key, forKey: value)
+    public func log(event : Event) {
+        let awsEvent = awsAnalytics.eventClient.createEvent(withEventType: event.method + ":" + event.sender + "/" + event.action)
+        if let awsEvent = awsEvent {
+            for (key, value) in event.data {
+                awsEvent.addAttribute(key, forKey: value)
+            }
+            awsAnalytics.eventClient.record(awsEvent)
+            awsAnalytics.eventClient.submitEvents()
         }
-        awsAnalytics.eventClient.recordEvent(awsEvent)
-        awsAnalytics.eventClient.submitEvents()
     }
 }
