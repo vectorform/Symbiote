@@ -22,7 +22,11 @@ Events may be filtered and processed (add/edit/remove/analyze data) by adding cu
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/TODO). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'Symbiote', '0.1.0'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS: 8.0 and above.
+In your podfile, you want to add `pod 'Symbiote', '0.3.0'` (Swift 3). Then run `pod install` inside your terminal. With Cocoapods, we support iOS: 9.0 and above.
+
+#### Swift 2
+
+For Swift 2 support, you must use version 0.1.2.
 
 
 ### Reference Documentation
@@ -37,6 +41,10 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## Author
 
 Johannes Start, jstart@vectorform.de
+
+### Contributors
+
+Aaron DeGrow, adegrow@vectorform.com
 
 ## License
 
@@ -65,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Enable simple log provider to print all output.
         // TODO: Disable for production build!
-        Symbiote.SharedInstance.registerAnalyticsProvider(DebugLogProvider());
+        Symbiote.SharedInstance.register(analyticsProvider: DebugLogProvider());
     }
 
 }
@@ -93,7 +101,7 @@ class SampleViewController: AnalyticsEnabledViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.analyticsDescription = "SampleViewController"
+        analyticsDescription = "SampleViewController"
     }
 
 }
@@ -107,9 +115,9 @@ class SampleNavigationController: AnalyticsEnabledNavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.analyticsDescription = "SampleNavigationController"
+        analyticsDescription = "SampleNavigationController"
         // Optionally set parentViewController
-        self.parentViewController = aViewController
+        parentViewController = aViewController
     }
 
 }
@@ -195,12 +203,12 @@ let AnalyticsDataDescriptorsLocationAccuracy = Event.DataDescriptor("LocationAcc
 
 Event with default parameters:
 ```swift
-Symbiote.SharedInstance.logEvent(Event(method: Event.Methods.AppDelegateCall, sender: Event.Senders.App, action: Event.Actions.Start, data: [:]))
+Symbiote.SharedInstance.log(event: Event(method: Event.Methods.AppDelegateCall, sender: Event.Senders.App, action: Event.Actions.Start, data: [:]))
 ```
 Event with custom parameters:
 ```swift
 let locationAccuracy = "10m"
-Symbiote.SharedInstance.logEvent(Event(sender: AnalyticsSenderMap, action: AnalyticsActionLocated, data: [ AnalyticsDataDescriptorsLocationAccuracy: locationAccuracy ]))
+Symbiote.SharedInstance.log(event: Event(sender: AnalyticsSenderMap, action: AnalyticsActionLocated, data: [ AnalyticsDataDescriptorsLocationAccuracy: locationAccuracy ]))
 ```
 
 ### Event Processors & Filters
@@ -208,5 +216,5 @@ Event processors add/edit/remove data from an analytics event or prohibit loggin
 This is how you register an event processor with a filter:
 ```swift
 // Sample of how to prohibit all events with a .App sender
-Symbiote.SharedInstance.registerEventProcessor(ProhibitAllProcessor(), filter: SimpleGenericFilter(filterSenders: [Event.Senders.App]))
+Symbiote.SharedInstance.register(eventProcessor: ProhibitAllProcessor(), filter: SimpleGenericFilter(filterSenders: [Event.Senders.App]))
 ```

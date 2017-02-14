@@ -7,16 +7,16 @@
 //
 import UIKit
 
-public class AnalyticsEnabledNavigationController: UINavigationController, AnalyticsCompatible {
+open class AnalyticsEnabledNavigationController: UINavigationController, AnalyticsCompatible {
 
-    public var analyticsDescription: String?
+    open var analyticsDescription: String?
     
-    override public func viewDidAppear(animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Symbiote.SharedInstance.logEvent(Event(method: Event.Methods.SubclassHook, sender: Event.Senders.View, action: Event.Actions.Appear, data: [Event.DataDescriptors.ViewName: analyticsDescription ?? defaultAnalyticsDescription(), Event.DataDescriptors.Path: getViewPath()], senderObject: self))
+        Symbiote.SharedInstance.log(event: Event(method: Event.Methods.SubclassHook, sender: Event.Senders.View, action: Event.Actions.Appear, data: [Event.DataDescriptors.ViewName: analyticsDescription ?? defaultAnalyticsDescription(), Event.DataDescriptors.Path: getViewPath()], senderObject: self))
     }
-    override public func viewWillDisappear(animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Symbiote.SharedInstance.logEvent(Event(method: Event.Methods.SubclassHook, sender: Event.Senders.View, action: Event.Actions.Disappear, data: [Event.DataDescriptors.ViewName: analyticsDescription ?? defaultAnalyticsDescription(), Event.DataDescriptors.Path: getViewPath()], senderObject: self))
+        Symbiote.SharedInstance.log(event: Event(method: Event.Methods.SubclassHook, sender: Event.Senders.View, action: Event.Actions.Disappear, data: [Event.DataDescriptors.ViewName: analyticsDescription ?? defaultAnalyticsDescription(), Event.DataDescriptors.Path: getViewPath()], senderObject: self))
     }
 }

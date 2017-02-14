@@ -13,7 +13,7 @@ public class FlurryAnalyticsProvider: AnalyticsProvider {
         Flurry.startSession(apiKey)
     }
     
-    public func logEvent(event : Event) {
+    public func log(event : Event) {
         var convertedData = Dictionary<NSString, NSString>()
         for (key, value) in event.data {
             convertedData[NSString(string: key)] = NSString(string: value)

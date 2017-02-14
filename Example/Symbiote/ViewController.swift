@@ -16,19 +16,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         //analyticsDescription = "FirstViewController"
         
-        view.backgroundColor = UIColor.redColor()
+        view.backgroundColor = UIColor.red
         
-        let presentButton = AnalyticsEnabledButton(frame: CGRectMake(20, 20, 100, 50))
-        presentButton.setTitle("Present NavigationController", forState: UIControlState.Normal)
+        let presentButton = AnalyticsEnabledButton(frame: CGRect(x: 20, y: 20, width: 100, height: 50))
+        presentButton.setTitle("Present NavigationController", for: UIControlState())
         presentButton.sizeToFit()
         presentButton.parentViewController = self
         presentButton.analyticsDescription = "PresentNavControllerButton"
-        presentButton.addTarget(self, action: #selector(presentNavController), forControlEvents: UIControlEvents.TouchUpInside)
+        presentButton.addTarget(self, action: #selector(presentNavController), for: UIControlEvents.touchUpInside)
         view.addSubview(presentButton)
 
     }
     func presentNavController() {
         let nav = SampleNavigationController(rootViewController: SecondViewController())
-        presentViewController(nav, animated: true, completion: nil)
+        present(nav, animated: true, completion: nil)
     }
 }

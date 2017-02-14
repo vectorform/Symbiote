@@ -7,16 +7,16 @@
 //
 import UIKit
 
-public class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
+open class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
 
-    public var analyticsDescription: String?
+    open var analyticsDescription: String?
     
-    public weak var parentViewController: UIViewController?
-    public var customEvent: Event?
+    open weak var parentViewController: UIViewController?
+    open var customEvent: Event?
     
-    public func buttonPressed(sender: AnyObject) {
+    open func buttonPressed(_ sender: AnyObject) {
         if let customEvent = customEvent {
-            Symbiote.SharedInstance.logEvent(customEvent)
+            Symbiote.SharedInstance.log(event: customEvent)
             // nothing else to do here
             return
         }
@@ -30,16 +30,16 @@ public class AnalyticsEnabledButton: UIButton, AnalyticsCompatible {
         event.data[Event.DataDescriptors.Path] = getViewPath()
         event.senderObject = self
         
-        Symbiote.SharedInstance.logEvent(event)
+        Symbiote.SharedInstance.log(event: event)
     }
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        addTarget(self, action: #selector(buttonPressed), forControlEvents: UIControlEvents.TouchUpInside)
+        addTarget(self, action: #selector(buttonPressed), for: UIControlEvents.touchUpInside)
     }
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        addTarget(self, action: #selector(buttonPressed), forControlEvents: UIControlEvents.TouchUpInside)
+        addTarget(self, action: #selector(buttonPressed), for: UIControlEvents.touchUpInside)
 
     }
 

@@ -7,7 +7,7 @@
 //
 
 public protocol AnalyticsProvider: class {
-    func logEvent(event: Event)
+    func log(event: Event)
     
 }
 /// This allows Symbiote to use standard contains methods on collections by comparing the references of two objects

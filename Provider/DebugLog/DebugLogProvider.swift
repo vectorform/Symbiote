@@ -6,10 +6,10 @@
 //  DebugLogProvider.swift
 //
 
-public class DebugLogProvider: AnalyticsProvider {
+open class DebugLogProvider: AnalyticsProvider {
     public init() {
     }
-    public func logEvent(event: Event) {
+    open func log(event: Event) {
         NSLog("[SYMBIOTE]: " + event.method + ":" + event.sender + "/" + event.action + " [" + event.data.debugDescription + "]")
         
     }
